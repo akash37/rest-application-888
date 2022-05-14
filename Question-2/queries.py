@@ -25,7 +25,3 @@ def get_create_selection_query(data):
     sql_tuple = (data["name"], data["event_id"], data["price"], data["active"], data["outcome"])
     return sql, sql_tuple
 
-
-'''
-    Search Queries
-'''
