@@ -1,0 +1,36 @@
+Database Table Structure
+
+create table sport(
+   sport_id INT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(100) NOT NULL,
+   slug VARCHAR(100) NOT NULL,
+   active boolean,
+   PRIMARY KEY (sport_id)
+);
+
+
+create table event(
+	event_id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL,
+	slug VARCHAR(100) NOT NULL,
+	active bool,
+	type VARCHAR(100) NOT NULL,
+	sport_id int,
+	status VARCHAR(100) NOT NULL,
+	scheduled_start datetime NOT NULL,
+	actual_start datetime NOT NULL,
+	PRIMARY KEY (event_id),
+	FOREIGN KEY(sport_id) REFERENCES sport(sport_id)
+);
+
+
+create table selection(
+	selection_id INT NOT NULL AUTO_INCREMENT,
+	name varchar(100) not null,
+	event_id int,
+	price float not null,
+	active bool,
+	outcome enum("unsettled","void","lose","win"),
+	PRIMARY KEY(selection_id),
+	FOREIGN KEY(event_id) REFERENCES event(event_id)
+);

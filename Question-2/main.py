@@ -16,6 +16,10 @@ def hello_world():
     return "Hello World"
 
 
+'''
+    Create routes for sports, events and selection
+'''
+
 @app.route('/create_sport', methods=['POST'])
 def create_sport():
     payload = request.json
@@ -57,6 +61,7 @@ def create_selection():
     return {"status": 200}
 
 
+# Search Query takes in filter parameters and returns relevant events or sports
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get("term")
@@ -106,6 +111,7 @@ def update_sport():
     return {"status": 200}
 
 
+# Updates the event and corresponding sports based on active and inactive status
 @app.route('/update_event', methods=['POST'])
 def update_event():
     payload = request.json
@@ -143,6 +149,7 @@ def update_event():
     return {"status": 200}
 
 
+# Update selection updates a particular selection and activate or deactivates the corresponding events and sports
 @app.route('/update_selection', methods=['POST'])
 def update_selection():
     payload = request.json
