@@ -30,11 +30,6 @@ def create_sport():
     return {"status": 200}
 
 
-def test_create_sport(client):
-    response = client.get("/create_sport")
-    assert 200 == response.data.status
-
-
 @app.route('/create_event', methods=['POST'])
 def create_event():
     payload = request.json
@@ -65,17 +60,34 @@ def create_selection():
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get("term")
+    payload = request.json
     try:
         cur = db_connection.cursor()
         sql = "select name from sport where active = true and name like '%" + query + "%'" \
             " union select name from event where active = true and name like '%" + query + "%';"
+
         cur.execute(sql)
-        output = [dict((cur.description[i][0], value) for i, value in enumerate(row)) for row in cur.fetchall()]
-        results = json.dumps(output)
+        output_1 = [dict((cur.description[i][0], value) for i, value in enumerate(row)) for row in cur.fetchall()]
+        result_1 = json.dumps(output_1)
+        # result_2 = None
+        # result_3 = None
+        # if payload["threshold"]:
+        #     sql2 = "select sport_id, count(*) from event where active=true group by event_id having count(*) >= " \
+        #            + str(payload["threshold"]) + ";"
+        #     cur.execute(sql2)
+        #     output_2 = [dict((cur.description[i][0], value) for i, value in enumerate(row)) for row in cur.fetchall()]
+        #     result_2 = json.dumps(output_2)
+        #
+        # if payload["scheduled_start"]:
+        #     sql3 = "select name from event where scheduled_start > " + str(payload["scheduled_start"]) + ";"
+        #     cur.execute(sql3)
+        #     output_3 = [dict((cur.description[i][0], value) for i, value in enumerate(row)) for row in cur.fetchall()]
+        #     result_3 = json.dumps(output_3)
+
     except Exception as err:
         return {"error": err}
 
-    return results
+    return result_1
 
 
 @app.route('/update_sport', methods=['POST'])
